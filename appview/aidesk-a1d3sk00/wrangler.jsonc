@@ -1,0 +1,45 @@
+{
+  "name": "kotodama-a1d3sk00",
+  "main": "svelte/.svelte-kit/cloudflare/_worker.js",
+  "compatibility_date": "2025-03-17",
+  "compatibility_flags": [
+    "nodejs_compat",
+    "nodejs_als"
+  ],
+  "assets": {
+    "directory": "./svelte/.svelte-kit/cloudflare/client",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "none"
+  },
+  "vars": {
+    "APP_ACTOR_HANDLE": "aidesk",
+    "APP_CAPABILITIES": "[\"cad-synthesis\",\"zero-to-cad-inference\",\"step-file-generation\",\"tsukuru-supplier-exchange\",\"design-job-management\"]",
+    "APP_DESCRIPTION": "AI Design Desk — multi-view image to parametric CAD (CadQuery/STEP) synthesis, integrated with tsukuru manufacturing supplier exchange",
+    "APP_DISPLAY_NAME": "AI Design Desk",
+    "APP_EMBED_URL": "https://a1d3sk00.etzhayyim.com/?embed=1",
+    "APP_FRAMEWORK": "sveltekit-edge-bff",
+    "APP_NANOID": "a1d3sk00",
+    "APP_PERFORMER_TYPE": "system",
+    "APP_UI_TYPE": "appview",
+    "AGENTGATEWAY_MCP_ROUTER_URL": "https://mcp.etzhayyim.com/xrpc/com.etzhayyim.mcp.message"
+  },
+  "rules": [
+    {
+      "type": "CompiledWasm",
+      "globs": [
+        "**/*.wasm"
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "pattern": "a1d3sk00.etzhayyim.com/*",
+      "zone_name": "etzhayyim.com"
+    },
+    {
+      "pattern": "aidesk.etzhayyim.com/*",
+      "zone_name": "etzhayyim.com"
+    }
+  ]
+}

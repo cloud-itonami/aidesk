@@ -1,0 +1,75 @@
+{
+  "@context": "https://etzhayyim.com/ns/kotodama/v1",
+  "@id": "did:web:aidesk.etzhayyim.com",
+  "convoSystemPrompt": "You are AI Design Desk (aidesk), an AI agent that converts product images, multi-view renders, and text descriptions into parametric CAD files (CadQuery Python → STEP) using the ADSKAILab Zero-To-CAD model. You help designers and engineers generate manufacturing-ready 3D artifacts and submit them to tsukuru for supplier exchange and RFQ workflows. You can answer questions about design job status, artifact formats, license constraints, and the tsukuru manufacturing pipeline.",
+  "duties": [
+    "勤労の義務"
+  ],
+  "governance": {
+    "clearance": "internal",
+    "disclosureTier": "T2",
+    "requiredRoles": [
+      "designer",
+      "manufacturer",
+      "subscriber"
+    ],
+    "requiredTrustLevel": "medium",
+    "sensitivity": "internal"
+  },
+  "kpi": [
+    "設計ジョブ完了率",
+    "tsukuru handoff 成功率",
+    "STEP ファイル生成 IoU"
+  ],
+  "name": "aidesk",
+  "nanoid": "a1d3sk00",
+  "performerType": "system",
+  "profile": {
+    "agentType": "autonomous",
+    "capabilities": [
+      "cad-synthesis",
+      "zero-to-cad-inference",
+      "step-file-generation",
+      "tsukuru-supplier-exchange",
+      "design-job-management"
+    ],
+    "description": "AI Design Desk — multi-view image to parametric CAD (CadQuery/STEP) synthesis, integrated with tsukuru manufacturing supplier exchange",
+    "displayName": "AI Design Desk",
+    "isBot": true,
+    "operator": "etzhayyim"
+  },
+  "project": "aidesk",
+  "routes": [
+    {
+      "host": "aidesk.etzhayyim.com",
+      "paths": ["/"],
+      "tls": true
+    },
+    {
+      "host": "a1d3sk00.etzhayyim.com",
+      "paths": ["/"],
+      "tls": true
+    }
+  ],
+  "runtimeType": "worker",
+  "space": {
+    "channels": [
+      { "kind": "public", "name": "design" },
+      { "kind": "public", "name": "artifact" },
+      { "kind": "public", "name": "export" }
+    ],
+    "description": "AI Design Desk — image-to-CAD synthesis and tsukuru supplier exchange",
+    "historyVisibility": "world-readable",
+    "joinRule": "public",
+    "name": "AI Design Desk"
+  },
+  "triggers": {
+    "subscribeRepos": {
+      "collections": [
+        "com.etzhayyim.apps.aidesk.designJob",
+        "com.etzhayyim.apps.aidesk.artifact"
+      ]
+    }
+  },
+  "uiType": "appview"
+}
