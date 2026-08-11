@@ -1,0 +1,66 @@
+#!/usr/bin/env nbb
+;; MCP ルータのローカルスタブ。docs/operator-quickstart.md の手順 4/5 で使う。
+;;
+;; なぜ要るか: この appview の /xrpc/* は AGENTGATEWAY_MCP_ROUTER_URL へ
+;; JSON-RPC 2.0 の tools/call を投げるだけの BFF で、既定の
+;; https://mcp.etzhayyim.com/... は 2026-08-11 時点で NXDOMAIN。
+;; つまり素の状態では POST /xrpc/* が必ず 500 になり、BFF 自体が正しいのか
+;; 上流が無いだけなのかを区別できない。このスタブは上流を 1 つ立てて、
+;; その区別をつけるためだけのもの（アプリの依存ではない）。
+;;
+;; 使い方:
+;;   nbb docs/mcp-router-stub.cljs            # 8795 で待受、成功応答を返す
+;;   nbb docs/mcp-router-stub.cljs --port 9000 --mode error
+;;
+;; --mode success (既定) → {"result":{"structuredContent":{"jobs":[],"stub":true}}}
+;; --mode error          → {"error":{"message":"stub: upstream refused"}}
+;;   BFF は前者を 200 + structuredContent に畳み、後者を 502 に変換する。
+
+(ns mcp-router-stub
+  (:require ["node:http" :as http]
+            [clojure.string :as str]))
+
+(def argv (vec (drop 2 (.-argv js/process))))
+
+(defn- opt [flag default]
+  (let [i (.indexOf argv flag)]
+    (if (neg? i) default (get argv (inc i) default))))
+
+(def port (js/parseInt (opt "--port" "8795") 10))
+(def mode (opt "--mode" "success"))
+
+(defn- reply [res status body]
+  (.writeHead res status #js {"content-type" "application/json"})
+  (.end res (js/JSON.stringify (clj->js body))))
+
+(defn- handle [req res]
+  (let [chunks (atom "")]
+    (.on req "data" (fn [c] (swap! chunks str c)))
+    (.on req "end"
+         (fn []
+           (let [raw @chunks
+                 parsed (try (js->clj (js/JSON.parse raw) :keywordize-keys true)
+                             (catch :default _ nil))
+                 method (:method parsed)
+                 nsid (get-in parsed [:params :name])]
+             ;; 受け取ったものをそのまま出す。BFF が何を送っているかを目で見るため。
+             (println (str "<- " (.-method req) " " (.-url req)
+                           "  jsonrpc.method=" (pr-str method)
+                           "  params.name=" (pr-str nsid)
+                           "  bff-header=" (pr-str (aget (.-headers req) "x-etzhayyim-bff"))))
+             (println (str "   body: " (subs raw 0 (min 300 (count raw)))))
+             (if (= mode "error")
+               (reply res 200 {:jsonrpc "2.0" :id (:id parsed)
+                               :error {:code -32000 :message "stub: upstream refused"}})
+               (reply res 200 {:jsonrpc "2.0" :id (:id parsed)
+                               :result {:structuredContent
+                                        {:jobs [] :stub true :echoNsid nsid}}})))))))
+
+(let [server (.createServer http handle)]
+  (.listen server port "127.0.0.1"
+           (fn []
+             (println (str "mcp-router-stub: http://127.0.0.1:" port
+                           "  mode=" mode
+                           (when-not (#{"success" "error"} mode)
+                             " (未知の mode。success として扱う)")))
+             (println "  停止は Ctrl-C"))))
