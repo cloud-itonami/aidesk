@@ -1,0 +1,28 @@
+;; aidesk appview の Worker。:esm（先例 cloud-itonami-marketplace-listing /
+;; app-ongakuka / gftdcojp/nexus-x402）。
+;;
+;; wrangler.jsonc の main は dist/worker.js を指し、それが **この** bundle で
+;; ある（src/ からコンパイルされる）。移行前は main が SvelteKit のビルド出力を
+;; 指しており、読み手が開く TypeScript はどの bundle にも入っていなかった
+;; （docs/adr/0001）。
+;;
+;; :warnings-as-errors は飾りではない。shadow は未宣言・改名された var を
+;; **WARNING** として扱うので、`shadow-cljs release worker` が exit 0 のまま
+;; 最初のリクエストで壊れる bundle を書き出す。つまり「ビルドが通った」は
+;; 検査ではなかった —— 落ちようが無かった。この repo で実際に落として確かめて
+;; ある（docs/operator-quickstart.md §4）。
+{:deps {:aliases [:cljs]}
+ :builds
+ {:worker
+  {:target :esm
+   :output-dir "dist"
+   :modules {:worker {:exports {default aidesk.worker/handler}}}
+   ;; このキーは :build-options ではなく **:compiler-options** に置く。shadow が
+   ;; 読むのは [:compiler-options :warnings-as-errors]
+   ;; （shadow/build/compiler.clj の should-warning-throw?）で、置き場所を間違えると
+   ;; **黙って無視される** —— この option が防ぐはずの失敗（落ちようの無い検査）
+   ;; そのものになる。scripts/verify-docs-claims.cljs は EDN を読んでこの位置を
+   ;; 検査する（grep では自分のコメントに当たる）。
+   :compiler-options {:output-feature-set :es2020
+                      :infer-externs :auto
+                      :warnings-as-errors true}}}}

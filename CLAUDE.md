@@ -10,7 +10,7 @@ AI Design Desk — 画像・テキストから CadQuery/STEP を生成し tsukur
 | domain | `aidesk.etzhayyim.com` |
 | AT bot DID | `did:web:aidesk.etzhayyim.com` |
 | Primary DID | `did:erc725:etzhayyim:260505:{identityContract}` |
-| Runtime | T3 CF Worker (thin edge) + T2 kotodama BPMN (LangServer) |
+| Runtime | T3 CF Worker (thin edge, **ClojureScript** — `src/aidesk/*` → shadow-cljs `:esm` → `dist/worker.js`) + T2 kotodama BPMN (LangServer) |
 | NSID prefix (商用) | `com.etzhayyim.apps.aidesk.*` |
 | NSID prefix (研究) | `com.etzhayyim.apps.aidesk.research.*` (Phase 2) |
 | ADR | `90-docs/adr/2605051200-aidesk-cad-synthesis-actor.md` |
@@ -46,10 +46,22 @@ normalize/validate は tsukuru 既存 BPMN に委譲。aidesk 側で再実装し
 
 ## Build & Deploy
 
+エッジ面は ClojureScript である（ADR-0001 で TypeScript/Svelte から移行）。
+ビルドは superproject の resource guard 経由（高負荷ビルドは同時 1 本）。
+
 ```bash
-cd 60-apps/etzhayyim-project-aidesk/appview/aidesk-a1d3sk00
-etzhayyim deploy --smoke-url https://a1d3sk00.etzhayyim.com/health
+node <superproject>/scripts/resource-guard.mjs run build -- \
+  npx --yes shadow-cljs release worker      # → dist/worker.js
+npx --yes nbb scripts/smoke-worker.cljs dist/worker.js
+cd appview/aidesk-a1d3sk00 && npx wrangler deploy
 ```
+
+**deploy しても誰も到達しない。** `aidesk.etzhayyim.com` /
+`a1d3sk00.etzhayyim.com`（wrangler の route）と `mcp.etzhayyim.com`（`/xrpc/` の
+中継先）は 2026-08-19 時点で 4 つとも NXDOMAIN。旧記述にあった
+`etzhayyim deploy --smoke-url …` の CLI はこのワークスペースの PATH に無く、
+その smoke URL は移行前の配備面では 404 を返していた。手順は
+`docs/operator-quickstart.md`。
 
 ## Graph Tables
 
