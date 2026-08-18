@@ -4,11 +4,11 @@
   "project": "etzhayyim-project-aidesk",
   "name": "aidesk-a1d3sk00",
   "kind": "appview",
-  "routeCount": 0,
-  "routes": [],
-  "vars": [],
+  "routeCount": 2,
+  "routes": ["a1d3sk00.etzhayyim.com/*","aidesk.etzhayyim.com/*"],
+  "vars": ["AGENTGATEWAY_MCP_ROUTER_URL","APP_ACTOR_HANDLE","APP_CAPABILITIES","APP_DESCRIPTION","APP_DISPLAY_NAME","APP_EMBED_URL","APP_FRAMEWORK","APP_NANOID","APP_PERFORMER_TYPE","APP_UI_TYPE"],
   "xrpc": true,
-  "relativePath": "60-apps/etzhayyim-project-aidesk/appview/aidesk-a1d3sk00/svelte/src/routes/+page.svelte"
+  "relativePath": "appview/aidesk-a1d3sk00/svelte/src/routes/+page.svelte"
 };
 </script>
 
