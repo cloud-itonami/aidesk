@@ -4,9 +4,16 @@
 ;; なぜ要るか: この appview の /xrpc/* は AGENTGATEWAY_MCP_ROUTER_URL へ
 ;; JSON-RPC 2.0 の tools/call を投げるだけの BFF で、既定の
 ;; https://mcp.etzhayyim.com/... は 2026-08-11 時点で NXDOMAIN。
-;; つまり素の状態では POST /xrpc/* が必ず 500 になり、BFF 自体が正しいのか
+;; つまり素の状態では POST /xrpc/* が必ず失敗し、BFF 自体が正しいのか
 ;; 上流が無いだけなのかを区別できない。このスタブは上流を 1 つ立てて、
 ;; その区別をつけるためだけのもの（アプリの依存ではない）。
+;;
+;; 2026-08-19 追記: appview は ClojureScript へ移行した（docs/adr/0001）。移行前の
+;; SvelteKit BFF は上流に到達できないとき **500 Internal Error** を返していたが、
+;; 移行後は **502 + 試した URL** を返す（到達できなかったことを 200 でも 500 でも
+;; 隠さない）。このスタブ自体は移行前と同じまま使える —— 送られてくる封筒が同じ
+;; だからである。名乗り（x-etzhayyim-bff）だけが sveltekit-edge-bff →
+;; cljs-edge-bff に変わっている。
 ;;
 ;; 使い方:
 ;;   nbb docs/mcp-router-stub.cljs            # 8795 で待受、成功応答を返す
