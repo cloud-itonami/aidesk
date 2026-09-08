@@ -9,7 +9,7 @@
   ingress capability が qualify した時（`:native-aot` / `:wasm-aot` は今日とも
   pending —— ADR-2606290000）に最初に `.kotoba` へ移るのもここである。
   route 表はスカラと文字列の上の判断で、まさにその移行が通る形をしている。"
-  (:require [clojure.string :as str]))
+  (:require [kotoba.lang.text :as str]))
 
 (def routes
   "公開している面を、データとして 1 箇所に持つ。**ページはこの表を描く。**
@@ -47,7 +47,7 @@
   `:action` は `:page` / `:health` / `:xrpc` / `:cors-preflight` /
   `:bad-request` / `:method-not-allowed` / `:not-found` のいずれか。"
   [method path]
-  (let [m (keyword (str/lower-case (or method "get")))
+  (let [m (keyword (str/lower (or method "get")))
         p (or path "")]
     (cond
       (and (= m :options) (str/starts-with? p "/xrpc/"))
@@ -103,7 +103,7 @@
   長さは必ず嘘になる（SvelteKit では framework が組み直していた）。"
   [incoming nsid]
   (let [drop? #{"host" "content-length"}]
-    (-> (into {} (remove (fn [[k _]] (drop? (str/lower-case (name k))))) incoming)
+    (-> (into {} (remove (fn [[k _]] (drop? (str/lower (name k))))) incoming)
         (assoc "content-type" "application/json"
                "x-etzhayyim-bff" bff-header-value
                "x-etzhayyim-xrpc-method" nsid))))
