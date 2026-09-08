@@ -25,7 +25,7 @@
 
 (ns mcp-router-stub
   (:require ["node:http" :as http]
-            [clojure.string :as str]))
+            [kotoba.lang.text :as str]))
 
 (def argv (vec (drop 2 (.-argv js/process))))
 
