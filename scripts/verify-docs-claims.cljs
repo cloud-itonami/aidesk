@@ -25,7 +25,7 @@
 (def APP "appview/aidesk-a1d3sk00")
 
 (def claims
-  {:tracked-files 20
+  {:tracked-files 21
    :inherited-bytes 5730          ; 継承した 5 ファイルが今も持っているバイト数
    :svelte-artifacts 0            ; .svelte / svelte.config / svelte/ ディレクトリ
    :sveltekit-compat-flags 0      ; nodejs_compat / nodejs_als は adapter-cloudflare の要求だった
