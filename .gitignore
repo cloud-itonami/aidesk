@@ -7,3 +7,6 @@ dist/
 node_modules/
 package-lock.json
 .wrangler/
+
+# nbb dependency cache -- a build artifact, not source
+.nbb/
