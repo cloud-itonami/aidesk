@@ -1,4 +1,4 @@
-#!/usr/bin/env nbb
+#!/usr/bin/env kbb
 ;; MCP ルータのローカルスタブ。docs/operator-quickstart.md の手順 4/5 で使う。
 ;;
 ;; なぜ要るか: この appview の /xrpc/* は AGENTGATEWAY_MCP_ROUTER_URL へ
@@ -16,8 +16,8 @@
 ;; cljs-edge-bff に変わっている。
 ;;
 ;; 使い方:
-;;   nbb docs/mcp-router-stub.cljs            # 8795 で待受、成功応答を返す
-;;   nbb docs/mcp-router-stub.cljs --port 9000 --mode error
+;;   kbb --backend sci docs/mcp-router-stub.cljk            # 8795 で待受、成功応答を返す
+;;   kbb --backend sci docs/mcp-router-stub.cljk --port 9000 --mode error
 ;;
 ;; --mode success (既定) → {"result":{"structuredContent":{"jobs":[],"stub":true}}}
 ;; --mode error          → {"error":{"message":"stub: upstream refused"}}

@@ -24,7 +24,7 @@ Cloudflare のアカウントは要らない（deploy だけが要る。§5）�
 git clone git@github.com:cloud-itonami/aidesk.git
 cd aidesk
 REPO=$PWD
-npx --yes nbb scripts/verify-docs-claims.cljs .
+npx --yes kbb --backend sci scripts/verify-docs-claims.cljk .
 ```
 
 末尾が `OK` なら README の数値・存在・不在は tree と一致している。
@@ -58,7 +58,7 @@ cat > "$d/run.cljs" <<'EOF'
 (require '[cljs.test :refer [run-tests]] 'aidesk.route-test)
 (run-tests 'aidesk.route-test)
 EOF
-npx --yes nbb --classpath "$CP" "$d/run.cljs"
+npx --yes kbb --backend sci --classpath "$CP" "$d/run.cljs"
 ```
 
 実際の出力:
@@ -91,9 +91,9 @@ cat > "$d/render.cljs" <<'EOF'
                   :mcp-url "https://mcp.etzhayyim.com/xrpc/com.etzhayyim.mcp.message"}))
   (println "ok"))
 EOF
-DDS="$K/jp-go-digital-design-system" OUT="$d/page.html" npx --yes nbb --classpath "$CP" "$d/render.cljs"
+DDS="$K/jp-go-digital-design-system" OUT="$d/page.html" npx --yes kbb --backend sci --classpath "$CP" "$d/render.cljs"
 
-cd $K/design-quality && npx --yes nbb -m design-quality.cli score "$d/page.html" --min 95
+cd $K/design-quality && npx --yes kbb --backend sci -m design-quality.cli score "$d/page.html" --min 95
 ```
 
 実際の出力（末尾）:
@@ -130,7 +130,7 @@ governor）。直接叩かず、必ず guard 経由で:
 ```bash
 cd "$REPO"
 node ~/github/com-junkawasaki/scripts/resource-guard.mjs run build -- \
-  npx --yes shadow-cljs release worker
+  npx --yes amu compile --target wasm32-browser worker
 ls -la dist/worker.js
 ```
 
@@ -190,7 +190,7 @@ sha256: f181a6d2…00389810                                              ← 別
 ここが deploy されるものに触る唯一の検査である。
 
 ```bash
-cd "$REPO" && npx --yes nbb scripts/smoke-worker.cljs dist/worker.js
+cd "$REPO" && npx --yes kbb --backend sci scripts/smoke-worker.cljk dist/worker.js
 ```
 
 実際の出力（抜粋）:
@@ -252,7 +252,7 @@ adapter-cloudflare 由来で、この bundle には要らない。**撤去は憶
 ローカルの上流を 1 つ立てる。
 
 ```bash
-npx --yes nbb docs/mcp-router-stub.cljs --port 8796        # 成功応答を返す
+npx --yes kbb --backend sci docs/mcp-router-stub.cljk --port 8796        # 成功応答を返す
 # 別シェルで
 cd "$REPO/appview/aidesk-a1d3sk00"
 npx --yes wrangler@latest dev --local --port 8824 --ip 127.0.0.1 \

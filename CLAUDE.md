@@ -51,8 +51,8 @@ normalize/validate は tsukuru 既存 BPMN に委譲。aidesk 側で再実装し
 
 ```bash
 node <superproject>/scripts/resource-guard.mjs run build -- \
-  npx --yes shadow-cljs release worker      # → dist/worker.js
-npx --yes nbb scripts/smoke-worker.cljs dist/worker.js
+  npx --yes amu compile --target wasm32-browser worker      # → dist/worker.js
+npx --yes kbb --backend sci scripts/smoke-worker.cljk dist/worker.js
 cd appview/aidesk-a1d3sk00 && npx wrangler deploy
 ```
 

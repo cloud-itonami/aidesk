@@ -118,7 +118,7 @@ UI の base）。色・寸法は `--hig-*` トークン契約のみ、app 固有
 - `aidesk.route-test`: **7 tests / 34 assertions、0 failures**（nbb、ビルド不要）
 - ページ描画 → design-quality **100.00**、gate PASS（10 軸。`--extra-axes` の
   12 軸でも 100.00）
-- `shadow-cljs release worker`: **55 files / 12 compiled / 0 warnings**、
+- `amu compile --target wasm32-browser worker`: **55 files / 12 compiled / 0 warnings**、
   `dist/worker.js` 247,975 バイト（sha256 `d9782455…03622b37`）
 - `scripts/smoke-worker.cljs`: **36 checks、exit 0**。ビルドされた bundle を
   import して叩く唯一の検査
