@@ -1,4 +1,4 @@
-#!/usr/bin/env nbb
+#!/usr/bin/env kbb
 ;; verify-docs-claims — README.md と docs/operator-quickstart.md が述べる数値・存在・
 ;; 不在を tree から**引き直して**照合し、食い違えば落ちる。
 ;;
@@ -8,7 +8,7 @@
 ;; 主張する。そして黙って戻らないように、TypeScript は「バイト合計に現れない」では
 ;; なく**名指しで不在**を検査する。
 ;;
-;; Usage:  nbb scripts/verify-docs-claims.cljs [<dir>]     (<dir> は先頭、既定 ".")
+;; Usage:  kbb --backend sci scripts/verify-docs-claims.cljk [<dir>]     (<dir> は先頭、既定 ".")
 ;; Exit:   0 全 claim が成立 · 1 claim が偽 · 2 答えられなかった
 ;;
 ;; ⚠ <dir> は引数の**先頭**に置く。多くの gate が

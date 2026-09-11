@@ -7,7 +7,7 @@
 ;; （docs/adr/0001）。
 ;;
 ;; :warnings-as-errors は飾りではない。shadow は未宣言・改名された var を
-;; **WARNING** として扱うので、`shadow-cljs release worker` が exit 0 のまま
+;; **WARNING** として扱うので、`amu compile --target wasm32-browser worker` が exit 0 のまま
 ;; 最初のリクエストで壊れる bundle を書き出す。つまり「ビルドが通った」は
 ;; 検査ではなかった —— 落ちようが無かった。この repo で実際に落として確かめて
 ;; ある（docs/operator-quickstart.md §4）。
