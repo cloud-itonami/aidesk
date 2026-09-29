@@ -124,7 +124,7 @@ gate: aggregate 100.00 >= min 95.00 -> PASS
 
 ## 4. bundle をビルドする
 
-**高負荷ビルドは同時 1 本に制限されている**（superproject `CLAUDE.md` の resource
+**高負荷ビルドは同時 1 本に制限されている**（superproject `AGENTS.md` の resource
 governor）。直接叩かず、必ず guard 経由で:
 
 ```bash
@@ -304,8 +304,8 @@ npx wrangler deploy
 3. superproject の deploy guard は `origin/main` を含む checkout からの deploy しか
    許さない。
 
-`CLAUDE.md` が以前書いていた `etzhayyim deploy --smoke-url …` の CLI は、この
-ワークスペースの PATH に無い（移行に伴って CLAUDE.md を直した）。
+`AGENTS.md` が以前書いていた `etzhayyim deploy --smoke-url …` の CLI は、この
+ワークスペースの PATH に無い（移行に伴って AGENTS.md を直した）。
 
 ## 7. ここに無いもの
 
