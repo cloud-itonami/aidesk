@@ -78,7 +78,7 @@ NXDOMAIN なので、実際に観測している者は居ない）。
 | gate | `scripts/{smoke-worker.cljs, verify-docs-claims.cljs}` |
 | Worker 設定 | `appview/aidesk-a1d3sk00/wrangler.jsonc` |
 | actor 記述子 | `kotodama.jsonld`（root と appview に**バイト同一の 2 部**。抽出時から） |
-| 設計 | `CLAUDE.md` |
+| 設計 | `AGENTS.md` |
 | 由来・権利・識別 | `NOTICE` / `README.edn` / `migration.edn` |
 | 文書・道具 | `README.md` / `docs/operator-quickstart.md` / `docs/adr/*.edn` / `docs/mcp-router-stub.cljs` |
 
@@ -179,7 +179,7 @@ deploy 先も中継先も、いま存在しない。`/xrpc/` は到達できな�
 - `wrangler.jsonc` は**意図的に変更**した（`main` の付け替え、消えた SvelteKit
   client を指す `assets` の撤去、`APP_FRAMEWORK` の更新、`compatibility_flags` の
   撤去。flags は workerd で実測してから外した）
-- `CLAUDE.md` は移行が偽にした記述（消えたビルド出力を指す手順、PATH に無い CLI での
+- `AGENTS.md` は移行が偽にした記述（消えたビルド出力を指す手順、PATH に無い CLI での
   deploy）を直した。hash ではなく**内容**で検査する
 - TypeScript/Svelte の 9 ファイルは**移行で撤去**した。検証器はその 9 パスを名指しで
   「不在であること」を検査する —— バイト合計は「TS が消えた」と言えない

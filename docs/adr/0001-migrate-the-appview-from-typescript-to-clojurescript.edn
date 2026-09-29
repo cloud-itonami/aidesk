@@ -43,7 +43,7 @@
             ↓ shadow-cljs :target :esm
     dist/worker.js           wrangler.jsonc の main が指すもの
 
-この workspace の正本言語は cljs と kotoba である（superproject CLAUDE.md の
+この workspace の正本言語は cljs と kotoba である（superproject AGENTS.md の
 runtime 順序: kotoba wasm > clojurewasm > ClojureScript > nbb。TypeScript はそこに
 無い）。入口を .kotoba ではなく cljs に置くのは ADR-2606290000 の判断で、kotoba の
 ingress capability が :native-aot / :wasm-aot とも pending だからである。判断を
@@ -177,7 +177,7 @@ backup を掴んでいないことを言えるのはこの比較だけである�
    ついでに『ちょうど 1 つの tx-data である』ことも言えるようになった。
 
    さらに、検証器の `claude-md-describes-cljs` の初版は
-   **`Svelte` という語を CLAUDE.md が含まないこと**を見ていた。これは
+   **`Svelte` という語を AGENTS.md が含まないこと**を見ていた。これは
    「TypeScript/Svelte から移行した」という**正しい歴史の記述**で落ちる ——
    部分文字列の禁止は散文についての検査であって tree についての検査ではない。
    偽になった主張そのもの（消えたビルド出力を指す手順・PATH に無い CLI での
@@ -198,7 +198,7 @@ to :APP_NANOID`）。smoke は exit 2（測れなかった）を返した ——
   **0 → 4 本**（`src/` と `test/`）。この 2 つは検証器の claim なので、TS が
   戻れば落ちる —— 撤去した 9 パスに戻る場合と、別名で入る場合を別の claim が捕まえる。
 - 継承した 5 ファイル（5,730 バイト）は 1 バイトも変わっていない（sha256 を
-  検証器に固定）。`CLAUDE.md` は移行が偽にした記述（SvelteKit のビルド手順・
+  検証器に固定）。`AGENTS.md` は移行が偽にした記述（SvelteKit のビルド手順・
   存在しない CLI での deploy）を直したので、hash ではなく**内容**で検査する。
 - superproject の検出器 `verify-appview-page-summary` はこの repo の
   `+page.svelte` を見ていたが、そのファイルはもう無い。ページは request 時に

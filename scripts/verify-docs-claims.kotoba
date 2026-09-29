@@ -37,7 +37,7 @@
    :shadow-output-dir "dist"
    :shadow-export 'aidesk.worker/handler})
 
-;; 抽出時から **1 バイトも変わっていない**ファイル。CLAUDE.md はこの集合から
+;; 抽出時から **1 バイトも変わっていない**ファイル。AGENTS.md はこの集合から
 ;; 外してある —— 移行が偽にした記述（SvelteKit のビルド手順・deploy コマンド）を
 ;; 直したので、hash ではなく**内容**で検査する。wrangler.jsonc も同じ理由で
 ;; 内容検査（意図した変更と勝手な変更を区別するため）。
@@ -121,16 +121,16 @@
                                  (re-find #"\.(cljs|cljc|clj|kotoba)$" %))
                            files)))
 
-    ;; CLAUDE.md が移行で偽になった記述を持たないこと。
+    ;; AGENTS.md が移行で偽になった記述を持たないこと。
     ;;
     ;; **『Svelte という語を含まない』では見ない。** 初版はそう書いていて、
     ;; 「TypeScript/Svelte から移行した」という**正しい歴史の記述**で落ちた ——
     ;; 部分文字列の禁止は散文についての検査であって、tree についての検査ではない
     ;; （同じ誤りを :page-renders-route-table でも避けている）。見るのは偽になった
     ;; 主張そのもの: 消えたビルド出力を指す手順と、存在しない CLI での deploy。
-    (let [c (slurp* "CLAUDE.md")]
+    (let [c (slurp* "AGENTS.md")]
       (if (nil? c)
-        (undet! "CLAUDE.md unreadable")
+        (undet! "AGENTS.md unreadable")
         (check! :claude-md-describes-cljs true
                 (and (not (str/includes? c "svelte/.svelte-kit"))
                      (not (str/includes? c "etzhayyim deploy --smoke-url https://"))
